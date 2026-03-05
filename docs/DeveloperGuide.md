@@ -290,43 +290,61 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: UC1 - Add New Patient Record**
+
+
+**MSS**  
+1.  User requests to add new patient
+2.  AddressBook shows a place for receiving user's input
+3.  User add the patient's details
+4.  User submit the details
+5.  AddressBook shows the corresponding detail for confirmation
+6.  User confirm
+7.  AddressBook add the record
+    Use case ends.  
+
+**Extensions**
+* 4a. AddressBook find a duplicate record with the same name or ID
+    * 4a1. AddressBook show the potential duplicate record
+    * Use Case resumes at Step 6
+
+* 4b. Invalid input
+    * 5b1. AddressBook shows an error message with a correct input format
+    * Use Case resumes at Step 2
+
+* 5a. User want to edit or don't want to add this record anymore
+    * 5a1. User retract the submission
+    * Use Case resumes at Step 2
+
+**Use case: UC2 - Get Patient's Medical History**
 
 **MSS**
-
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
-
+1.  User requests to get patient's medical history
+2.  User requests for the patient info that they want
+3.  AddressBook shows the medical history of this user
     Use case ends.
 
 **Extensions**
+* 2a. AddressBook cannot find the record
+    * 2a1. AddressBook notifies the user that no record is found
+    * Use Case end.
 
-* 2a. The list is empty.
-
-  Use case ends.
-
-* 3a. The given index is invalid.
-
-    * 3a1. AddressBook shows an error message.
-
-      Use case resumes at step 2.
-
-*{More to be added}*
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  All operations should be returned within 2 seconds
+5.  Only 1 user should be using for one set of data.
+6.  Data should be kept as long as user does not delete the file.
 
-*{More to be added}*
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Patient Record**: A record with Patient's particular and can be found using patient's name or ID
+* **Duplicate Record**: A record with the same ID / Name / Phone No.
 
 --------------------------------------------------------------------------------------------------------------------
 
