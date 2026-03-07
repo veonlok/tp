@@ -294,23 +294,23 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 
 **MSS**  
-1.  User requests to add new patient
-2.  AddressBook shows a place for receiving user's input
-3.  User add the patient's details
-4.  User submit the details
-5.  AddressBook shows the corresponding detail for confirmation
-6.  User confirm
-7.  AddressBook add the record
+1.  User requests to add a new patient.
+2.  AddressBook requests for patient details.
+3.  User enters the patient's details.
+4.  User submits the details.
+5.  AddressBook shows the details for confirmation.
+6.  User confirms.
+7.  AddressBook adds the record.
     Use case ends.  
 
 **Extensions**
-* 4a. AddressBook find a duplicate record with the same name or ID
-    * 4a1. AddressBook show the potential duplicate record
-    * Use Case resumes at Step 6
+* 4a. AddressBook find a duplicate record with the same name or NRIC
+    * 4a1. AddressBook show the potential duplicate record.
+    * Use Case resumes at Step 6.
 
 * 4b. Invalid input
-    * 5b1. AddressBook shows an error message with a correct input format
-    * Use Case resumes at Step 2
+    * 5b1. AddressBook shows an error message indicating a correct input format.
+    * Use Case resumes at Step 2.
 
 * 5a. User want to edit or don't want to add this record anymore
     * 5a1. User retract the submission
@@ -319,14 +319,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: UC2 - Get Patient's Medical History**
 
 **MSS**
-1.  User requests to get patient's medical history
-2.  User requests for the patient info that they want
-3.  AddressBook shows the medical history of this user
+1.  User requests to view patient's medical history.
+2.  AddressBook requests for patient's information, NRIC / name.
+3.  User provides patient's NRIC / Name.
+4.  AddressBook shows the medical history of this user.
     Use case ends.
 
 **Extensions**
 * 2a. AddressBook cannot find the record
-    * 2a1. AddressBook notifies the user that no record is found
+    * 2a1. AddressBook notifies the user that no record is found.
     * Use Case end.
 
 
@@ -335,16 +336,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  All operations should be returned within 2 seconds
-5.  Only 1 user should be using for one set of data.
-6.  Data should be kept as long as user does not delete the file.
+4.  All operations should complete within 2 seconds
+5.  The system supports only one user accessing the data at a time.
+6.  Data should persist unless the user deletes the data file.
 
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Patient Record**: A record with Patient's particular and can be found using patient's name or ID
-* **Duplicate Record**: A record with the same ID / Name / Phone No.
+* **Duplicate Record**: A record with the same NRIC / Name / Phone Number
 
 --------------------------------------------------------------------------------------------------------------------
 
