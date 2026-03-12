@@ -95,7 +95,7 @@ Here's a (partial) class diagram of the `Logic` component:
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
-![Interactions Inside the Logic Component for the delete 1</code></code></code></code></code></code></code></code> Command](images/DeleteSequenceDiagram.png)
+![Interactions Inside the Logic Component for the delete 1</code></code></code></code></code></code></code></code></code></code></code></code></code></code></code></code> Command](images/DeleteSequenceDiagram.png)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
@@ -271,9 +271,9 @@ Clinic staff who manage patient and vendor information as part of daily clinic o
 * Managing contact information (patients, vendors, etc.)
 * Retrieving and updating records quickly
 
-**Value proposition**: 
+**Value proposition**:
 
-- Digitises paper-based records
+- Digitises and reduce paper-based records
 - Faster information retrieval
 - Reduced human error (illegible handwriting, duplicate entries, etc.)
 - Easy to learn and use, designed for staff with basic computer skills
@@ -290,7 +290,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority  | As a…               | I can…                                                                                                      | So that…                                                                                   |
 | --------- | -------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| `* * `  | Doctor               | Update an existing patient's health information                                                              | We have an updated record of a patient                                                      |
+| `* * `  | Doctor               | Update an existing patient's health information                                                              | I can make medical decisions based on the most current medical history.                     |
 | `* * *` | Doctor               | Record an existing patient's symptoms, issue a diagnosis and generate prescriptions with specified dosages   | The patient receives accurate and timely treatment                                          |
 | `* * *` | Doctor               | Retrieve an existing patient's medical history                                                               | We can make informed, clinical diagnosis                                                    |
 | `* `    | Doctor               | Order lab or imaging tests                                                                                   | We can confirm or refine a diagnosis                                                        |
