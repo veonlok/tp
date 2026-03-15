@@ -16,17 +16,39 @@ import seedu.address.model.tag.Tag;
  */
 public class Person {
 
+    // default id for patient who has yet been assigned with an ID
+    private static final int DEFAULT_ID = 0;
+    // will be used later
+    private static final String ID_FORMAT = "P%03d";
+
     // Identity fields
     private final Name name;
     private final Phone phone;
     private final Email email;
+    private int id;
 
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
 
+
     /**
      * Every field must be present and not null.
+     * ID will be assigned by AddressBook
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.id = id;
+    }
+
+    /**
+     * constructor for Person without ID assignment
+     * ID will then be assigned by the AddressBook
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
@@ -35,7 +57,9 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.id = DEFAULT_ID;
     }
+
 
     public Name getName() {
         return name;
@@ -52,6 +76,15 @@ public class Person {
     public Address getAddress() {
         return address;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
@@ -71,6 +104,7 @@ public class Person {
         }
 
         return otherPerson != null
+                && otherPerson.getId() == getId()
                 && otherPerson.getName().equals(getName());
     }
 
@@ -90,7 +124,9 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
+
+        return id == otherPerson.id
+                && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
@@ -100,13 +136,14 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(id, name, phone, email, address, tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", name)
+                .add("id", id)
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
