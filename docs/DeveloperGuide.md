@@ -391,7 +391,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     Use case ends.
 * 3a. The patient's NRIC / Name is invalid.
 
-  * 3a1. AddressBook shows an error message.
+  * 3a1. ClinicBook shows an error message.
     Use case resumes at step 2.
 
 **Use case: UC3 - Create patient diagnosis and prescription**
