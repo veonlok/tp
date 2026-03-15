@@ -16,6 +16,8 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    // id counter for Patient
+    private int nextId = 1;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -45,6 +47,11 @@ public class AddressBook implements ReadOnlyAddressBook {
      * {@code persons} must not contain duplicate persons.
      */
     public void setPersons(List<Person> persons) {
+        for (Person p : persons) {
+            if (p.getId() == 0) {
+                p.setId(getNextId());
+            }
+        }
         this.persons.setPersons(persons);
     }
 
@@ -68,12 +75,31 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Adds a person to the address book.
+     * Assign id to a Person and adds the address book.
      * The person must not already exist in the address book.
      */
     public void addPerson(Person p) {
+        // If ID is 0 (default), assign a new one
+        if (p.getId() == 0) {
+            int newId = getNextId();
+            p = new Person(p.getName(), p.getPhone(), p.getEmail(),
+                    p.getAddress(), p.getTags(), newId);
+        }
         persons.add(p);
     }
+
+    /**
+     * Returns the next available ID and increments the counter
+     */
+    public int getNextId() {
+        int maxId = persons.stream()
+                .mapToInt(Person::getId)
+                .max()
+                .orElse(0);
+        nextId = maxId + 1;
+        return nextId++;
+    }
+
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
@@ -83,6 +109,10 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
 
+        // assign new patient id if editedPerson has no id
+        if (editedPerson.getId() == 0) {
+            editedPerson.setId(getNextId());
+        }
         persons.setPerson(target, editedPerson);
     }
 

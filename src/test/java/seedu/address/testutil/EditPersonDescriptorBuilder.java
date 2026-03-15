@@ -37,6 +37,15 @@ public class EditPersonDescriptorBuilder {
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
         descriptor.setTags(person.getTags());
+        descriptor.setId(person.getId());
+    }
+
+    /**
+     * Sets the {@code id} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withId(int id) {
+        descriptor.setId(id);
+        return this;
     }
 
     /**
