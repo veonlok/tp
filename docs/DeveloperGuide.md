@@ -351,17 +351,17 @@ Use case ends.
 
 **Use case: UC4 - Register a new doctor**
 
-**Actor:** System Admin
+**Actor:** System Administrator
 
-**Preconditions:** System Admin is logged in
+**Preconditions:** System Administrator is logged in
 
 **MSS**
 
-1. Admin requests to register a new doctor
+1. System Administrator requests to register a new doctor
 2. ClinicBook requests for doctor's particulars
-3. Admin enters doctor's particulars
+3. System Administrator enters doctor's particulars
 4. ClinicBook requests for confirmation on registering the new doctor
-5. Admin confirms
+5. System Administrator confirms
 6. ClinicBook registers new doctor
 Use case ends.
 
@@ -369,7 +369,7 @@ Use case ends.
 
 * 4a. At least one of the fields (name, NRIC, contact number) are empty
   4a1. ClinicBook requests for values for these fields
-  4a2. Admin enters data for the missing fields
+  4a2. System Administrator enters data for the missing fields
   Steps 4a1 - 4a2 are repeated until the missing fields are filled
   Use case resumes at step 4.
 
@@ -377,9 +377,9 @@ Use case ends.
   4b1. ClinicBook shows the duplicate record
   Use case ends.
 
-* *a. At any time, admin chooses to cancel the doctor registration
+* *a. At any time, System Administrator chooses to cancel the doctor registration
   *a1. ClinicBook requests to confirm cancellation.
-  *a2. Admin confirms
+  *a2. System Administrator confirms
   Use case ends.
 
 
