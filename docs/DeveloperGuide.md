@@ -95,7 +95,7 @@ Here's a (partial) class diagram of the `Logic` component:
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
-![Interactions Inside the Logic Component for the delete 1</code></code> Command](images/DeleteSequenceDiagram.png)
+![Interactions Inside the Logic Component for the delete 1</code> Command](images/DeleteSequenceDiagram.png)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
@@ -336,63 +336,62 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Use case: UC1 - Add New Patient Record**
 
-**MSS**
 
-1. User requests to add a new patient.
-2. ClinicBook requests for patient details.
-3. User enters the patient's details.
-4. User submits the details.
-5. ClinicBook shows the details for confirmation.
-6. User confirms.
-7. ClinicBook adds the record.
-   Use case ends.
+**MSS**  
+1.  User requests to add a new patient.
+2.  ClinicBook requests for patient details.
+3.  User enters the patient's details.
+4.  User submits the details.
+5.  ClinicBook shows the details for confirmation.
+6.  User confirms.
+7.  ClinicBook adds the record.
+    Use case ends.  
 
 **Extensions**
-
 * 4a. ClinicBook finds a duplicate record with the same NRIC
+    * 4a1. ClinicBook shows the potential duplicate record.
+    * Use case ends.
 
-  * 4a1. ClinicBook shows the potential duplicate record.
-  * Use case ends.
 * 4b. ClinicBook find a duplicate record with the same name or phone number
+    * 4b1. ClinicBook shows the potential duplicate record.
+    * 4b2. ClinicBook requests for confirmation.
+    * 4b3. User amends if needed.
+    * 4b4. User confirms.
+    * Use case resumes at Step 7.
 
-  * 4b1. ClinicBook shows the potential duplicate record.
-  * 4b2. ClinicBook requests for confirmation.
-  * 4b3. User amends if needed.
-  * 4b4. User confirms.
-  * Use case resumes at Step 7.
 * 4c. Invalid input
+    * 4c1. ClinicBook shows an error message indicating a correct input format.
+    * Use case resumes at Step 2.
 
-  * 4c1. ClinicBook shows an error message indicating a correct input format.
-  * Use case resumes at Step 2.
 * 5a. User wants to edit
-
-  * 5a1. User retracts the submission
-  * Use case resumes at Step 2
+    * 5a1. User retracts the submission
+    * Use case resumes at Step 2
+ 
 * 5b. User doesn't want to add this record anymore
+    * 5b1. User cancels the submission
+    * Use case ends.
 
-  * 5b1. User cancels the submission
-  * Use case ends.
+
 
 **Use case: UC2 - Get Patient's Medical History**
 
 **MSS**
-
-1. User requests to view patient's medical history.
-2. ClinicBook requests for patient's information, NRIC / name.
-3. User provides patient's NRIC / Name.
-4. ClinicBook shows the medical history of this user.
-   Use case ends.
+1.  User requests to view patient's medical history.
+2.  ClinicBook requests for patient's information, NRIC / name.
+3.  User provides patient's NRIC / Name.
+4.  ClinicBook shows the medical history of this user.
+    Use case ends.
 
 **Extensions**
-
 * 2a. ClinicBook cannot find the record
+   * 2a1. ClinicBook notifies the user that no records were found.
+   Use case ends.
 
-  * 2a1. ClinicBook notifies the user that no records were found.
-    Use case ends.
 * 3a. The patient's NRIC / Name is invalid.
-
   * 3a1. AddressBook shows an error message.
-    Use case resumes at step 2.
+   Use case resumes at step 2.
+
+
 
 **Use case: UC3 - Create patient diagnosis and prescription**
 
@@ -402,7 +401,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. Doctor `<u>`gets a patient's medical history (UC2)`</u>`
+1. Doctor <u>gets a patient's medical history (UC2)</u>
 2. Doctor requests to create a new diagnosis
 3. ClinicBook requests for diagnosis details
 4. Doctor enters diagnosis, prescription details
@@ -414,15 +413,18 @@ Use case ends.
 
 **Extensions**
 
-* 4a. The diagnosis field is empty
-  4a1. ClinicBook requests for a diagnosis and prescription
-  4a2. Doctor enters data for the missing fields
-  Steps 4a1 - 4a2 are repeated until the missing fields are filled
+* 5a. The diagnosis field is empty
+  5a1. ClinicBook requests for a diagnosis and prescription
+  5a2. Doctor enters data for the missing fields
+  Steps 5a1 - 5a2 are repeated until the missing fields are filled
   Use case resumes at step 5
+
 * *a. At any time, doctor chooses to cancel the diagnosis logging
   *a1. ClinicBook requests to confirm cancellation.
   *a2. Doctor confirms
   Use case ends.
+
+
 
 **Use case: UC4 - Register a new doctor**
 
@@ -438,7 +440,7 @@ Use case ends.
 4. ClinicBook requests for confirmation on registering the new doctor
 5. System Administrator confirms
 6. ClinicBook registers new doctor
-   Use case ends.
+Use case ends.
 
 **Extensions**
 
@@ -447,13 +449,16 @@ Use case ends.
   3a2. System Administrator enters data for the missing fields
   Steps 3a1 - 3a2 are repeated until the missing fields are filled
   Use case resumes at step 4.
+
 * 3b. ClinicBook finds a duplicate doctor with the same NRIC
   3b1. ClinicBook shows the duplicate record
   Use case ends.
+
 * 3c. System Administrator enters invalid input.
 * 3c1. ClinicBook shows an error message indicating the correct input format.
 * 3c2. System Administrator re-enters the particulars.
   Use case resumes at step 4.
+
 * *a. At any time, System Administrator chooses to cancel the doctor registration
   *a1. ClinicBook requests to confirm cancellation.
   *a2. System Administrator confirms
