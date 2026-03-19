@@ -110,24 +110,26 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name or phone: `find`
+### Locating persons by name, phone, or NRIC: `find`
 
-Finds persons whose names contain any of the given keywords or whose phone numbers match exactly.
+Finds persons who match the supplied name keywords, phone number, and/or patient NRIC.
 
-Format: `find [n/NAME_KEYWORDS] [p/PHONE]`
+Format: `find [n/NAME_KEYWORDS] [p/PHONE] [nric/NRIC]`
 
-* At least one of `n/` or `p/` must be provided.
+* At least one of `n/`, `p/`, or `nric/` must be provided.
 * Prefixes are required. `find Alice` is invalid; use `find n/Alice`.
 * Name search is case-insensitive. e.g `n/hans` will match `Hans`
 * The order of the name keywords does not matter. e.g. `n/Hans Bo` will match `Bo Hans`
 * Only full words in the name will be matched e.g. `n/Han` will not match `Hans`
 * Phone search requires an exact match. e.g. `p/9876` will not match `98765432`
-* If both `n/` and `p/` are provided, persons matching either field will be returned.
+* NRIC search requires an exact valid NRIC and only matches patient entries.
+* If multiple prefixes are provided, a person must match all supplied fields.
 
 Examples:
 * `find n/John` returns `john` and `John Doe`
 * `find p/98765432` returns persons with phone number `98765432`
-* `find n/alex david p/91234567` returns all persons who match any field, i.e. name keyword or phone number<br>
+* `find nric/S1234567D` returns the patient with NRIC `S1234567D`
+* `find n/Nadia p/93456789 nric/S1234567D` returns the patient only if all three fields match<br>
 
   <!-- ![result for 'find alex david'](images/findAlexDavidResult.png) -->
 
@@ -198,6 +200,6 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find [n/NAME_KEYWORDS] [p/PHONE]`<br> e.g., `find n/James Jake p/98765432`
+**Find** | `find [n/NAME_KEYWORDS] [p/PHONE] [nric/NRIC]`<br> e.g., `find n/James Jake p/98765432 nric/S1234567D`
 **List** | `list`
 **Help** | `help`

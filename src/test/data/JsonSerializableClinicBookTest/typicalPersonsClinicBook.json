@@ -1,6 +1,7 @@
 {
   "_comment": "ClinicBook save file which contains the same Person values as in TypicalPersons#getTypicalClinicBook()",
   "persons" : [ {
+    "type" : "person",
     "name" : "Alice Pauline",
     "id": 1,
     "phone" : "94351253",
@@ -8,6 +9,7 @@
     "address" : "123, Jurong West Ave 6, #08-111",
     "tags" : [ "friends" ]
   }, {
+    "type" : "person",
     "name" : "Benson Meier",
     "id": 2,
     "phone" : "98765432",
@@ -15,6 +17,7 @@
     "address" : "311, Clementi Ave 2, #02-25",
     "tags" : [ "owesMoney", "friends" ]
   }, {
+    "type" : "person",
     "name" : "Carl Kurz",
     "id": 3,
     "phone" : "95352563",
@@ -22,6 +25,7 @@
     "address" : "wall street",
     "tags" : [ ]
   }, {
+    "type" : "person",
     "name" : "Daniel Meier",
     "id": 4,
     "phone" : "87652533",
@@ -29,6 +33,7 @@
     "address" : "10th street",
     "tags" : [ "friends" ]
   }, {
+    "type" : "person",
     "name" : "Elle Meyer",
     "id": 5,
     "phone" : "9482224",
@@ -36,6 +41,7 @@
     "address" : "michegan ave",
     "tags" : [ ]
   }, {
+    "type" : "person",
     "name" : "Fiona Kunz",
     "id": 6,
     "phone" : "9482427",
@@ -43,6 +49,7 @@
     "address" : "little tokyo",
     "tags" : [ ]
   }, {
+    "type" : "person",
     "name" : "George Best",
     "id": 7,
     "phone" : "9482442",

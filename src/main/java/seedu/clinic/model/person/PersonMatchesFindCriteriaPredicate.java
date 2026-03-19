@@ -10,31 +10,42 @@ import seedu.clinic.commons.util.StringUtil;
 import seedu.clinic.commons.util.ToStringBuilder;
 
 /**
- * Checks whether a {@code Person}'s name or phone matches the supplied find criteria.
+ * Checks whether a {@code Person} matches the supplied find criteria.
  */
 public class PersonMatchesFindCriteriaPredicate implements Predicate<Person> {
     private final List<String> nameKeywords;
     private final Optional<Phone> phone;
+    private final Optional<NRIC> nric;
 
     /**
-     * Creates a predicate that matches persons by name keywords or phone number.
+     * Creates a predicate that matches persons by the supplied criteria.
      *
      * @param nameKeywords Name keywords to match against a person's name; may be empty if unused.
      * @param phone Phone number to match exactly; may be empty if unused.
+     * @param nric Patient NRIC to match exactly; may be empty if unused.
      */
-    public PersonMatchesFindCriteriaPredicate(List<String> nameKeywords, Optional<Phone> phone) {
+    public PersonMatchesFindCriteriaPredicate(List<String> nameKeywords, Optional<Phone> phone, Optional<NRIC> nric) {
         requireNonNull(nameKeywords);
         requireNonNull(phone);
+        requireNonNull(nric);
         this.nameKeywords = List.copyOf(nameKeywords);
         this.phone = phone;
+        this.nric = nric;
     }
 
     @Override
     public boolean test(Person person) {
-        boolean matchesName = !nameKeywords.isEmpty() && nameKeywords.stream()
+        boolean hasCriteria = !nameKeywords.isEmpty() || phone.isPresent() || nric.isPresent();
+        if (!hasCriteria) {
+            return false;
+        }
+
+        boolean matchesName = nameKeywords.isEmpty() || nameKeywords.stream()
                 .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword));
-        boolean matchesPhone = phone.map(person.getPhone()::equals).orElse(false);
-        return matchesName || matchesPhone;
+        boolean matchesPhone = phone.map(person.getPhone()::equals).orElse(true);
+        boolean matchesNric = nric.map(value -> person instanceof Patient
+                && ((Patient) person).getNric().equals(value)).orElse(true);
+        return matchesName && matchesPhone && matchesNric;
     }
 
     @Override
@@ -48,7 +59,9 @@ public class PersonMatchesFindCriteriaPredicate implements Predicate<Person> {
         }
 
         PersonMatchesFindCriteriaPredicate otherPredicate = (PersonMatchesFindCriteriaPredicate) other;
-        return nameKeywords.equals(otherPredicate.nameKeywords) && phone.equals(otherPredicate.phone);
+        return nameKeywords.equals(otherPredicate.nameKeywords)
+                && phone.equals(otherPredicate.phone)
+                && nric.equals(otherPredicate.nric);
     }
 
     @Override
@@ -56,6 +69,7 @@ public class PersonMatchesFindCriteriaPredicate implements Predicate<Person> {
         return new ToStringBuilder(this)
                 .add("nameKeywords", nameKeywords)
                 .add("phone", phone)
+                .add("nric", nric)
                 .toString();
     }
 }

@@ -1,0 +1,22 @@
+{
+  "_comment": "ClinicBook save file with a plain person and a flat patient record",
+  "persons" : [ {
+    "name" : "Alex Yeoh",
+    "id" : 1,
+    "phone" : "87438807",
+    "email" : "alexyeoh@example.com",
+    "address" : "Blk 30 Geylang Street 29, #06-40",
+    "tags" : [ "friends" ]
+  }, {
+    "type" : "patient",
+    "name" : "Nadia Tan",
+    "id" : 2,
+    "nric" : "S1234567D",
+    "dateOfBirth" : "1992-04-12",
+    "emergencyContact" : "Amir Tan",
+    "phone" : "93456789",
+    "email" : "nadiatan@example.com",
+    "address" : "Blk 10 Bedok North Ave 2, #03-12",
+    "tags" : [ "patient" ]
+  } ]
+}

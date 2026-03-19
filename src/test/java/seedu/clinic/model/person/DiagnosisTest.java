@@ -6,34 +6,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.testutil.Assert.assertThrows;
 
 import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 public class DiagnosisTest {
 
-    private static final Doctor DEFAULT_DOCTOR = new Doctor(
-            new Name("Doctor One"),
-            new Phone("92345678"),
-            new Email("doctor@example.com"));
-
-    private static final Pharmacist DEFAULT_PHARMACIST = new Pharmacist(
-            new Name("Pharmacist One"),
-            new Phone("91234567"),
-            new Email("pharmacist@example.com"));
+    private static final int DEFAULT_DOCTOR_ID = 1;
+    private static final int DEFAULT_PHARMACIST_ID = 2;
 
     @Test
     public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Diagnosis(null, DEFAULT_DOCTOR));
+        assertThrows(NullPointerException.class, () -> new Diagnosis(null, DEFAULT_DOCTOR_ID));
     }
 
     @Test
     public void constructor_invalidDiagnosis_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new Diagnosis("", DEFAULT_DOCTOR));
+        assertThrows(IllegalArgumentException.class, () -> new Diagnosis("", DEFAULT_DOCTOR_ID));
     }
 
     @Test
     public void addAndRemoveMedicalDetails_success() {
-        Diagnosis diagnosis = new Diagnosis("Influenza", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR);
-        Prescription prescription = new Prescription("Paracetamol", "500mg", "Twice daily", DEFAULT_PHARMACIST);
+        Diagnosis diagnosis = new Diagnosis("Influenza", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR_ID);
+        Prescription prescription = new Prescription("Paracetamol", "500mg", "Twice daily", DEFAULT_PHARMACIST_ID);
 
         diagnosis.addSymptom("Fever");
         diagnosis.addPrescription(prescription);
@@ -52,18 +46,18 @@ public class DiagnosisTest {
 
     @Test
     public void equals() {
-        Diagnosis diagnosis = new Diagnosis("Influenza", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR);
+        Diagnosis diagnosis = new Diagnosis("Influenza", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR_ID);
         diagnosis.addSymptom("Fever");
-        diagnosis.addPrescription(new Prescription("Paracetamol", "500mg", "Twice daily", DEFAULT_PHARMACIST));
+        diagnosis.addPrescription(new Prescription("Paracetamol", "500mg", "Twice daily", DEFAULT_PHARMACIST_ID));
 
-        Diagnosis sameDiagnosis = new Diagnosis("Influenza", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR);
+        Diagnosis sameDiagnosis = new Diagnosis("Influenza", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR_ID);
         sameDiagnosis.addSymptom("Fever");
-        sameDiagnosis.addPrescription(new Prescription("Paracetamol", "500mg", "Twice daily", DEFAULT_PHARMACIST));
+        sameDiagnosis.addPrescription(new Prescription("Paracetamol", "500mg", "Twice daily", DEFAULT_PHARMACIST_ID));
 
         assertTrue(diagnosis.equals(sameDiagnosis));
         assertTrue(diagnosis.equals(diagnosis));
         assertFalse(diagnosis.equals(null));
         assertFalse(diagnosis.equals(5.0f));
-        assertFalse(diagnosis.equals(new Diagnosis("Cold", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR)));
+        assertFalse(diagnosis.equals(new Diagnosis("Cold", LocalDate.of(2026, 3, 12), DEFAULT_DOCTOR_ID)));
     }
 }

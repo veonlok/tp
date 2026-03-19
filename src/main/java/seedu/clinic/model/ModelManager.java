@@ -6,13 +6,18 @@ import static seedu.clinic.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.clinic.commons.core.GuiSettings;
 import seedu.clinic.commons.core.LogsCenter;
+import seedu.clinic.model.person.Diagnosis;
 import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 
 /**
  * Represents the in-memory model of clinic book data.
@@ -23,7 +28,7 @@ public class ModelManager implements Model {
     private final ClinicBook clinicBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private final FilteredList<Doctor> filteredDoctors;
+    private Predicate<Doctor> filteredDoctorPredicate;
 
     /**
      * Initializes a ModelManager with the given clinicBook and userPrefs.
@@ -35,8 +40,8 @@ public class ModelManager implements Model {
 
         this.clinicBook = new ClinicBook(clinicBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<Person>(this.clinicBook.getPersonList());
-        filteredDoctors = new FilteredList<Doctor>(this.clinicBook.getDoctorList());
+        filteredPersons = new FilteredList<>(this.clinicBook.getPersonList());
+        filteredDoctorPredicate = PREDICATE_SHOW_ALL_DOCTORS;
     }
 
     public ModelManager() {
@@ -99,7 +104,7 @@ public class ModelManager implements Model {
     @Override
     public boolean hasDoctor(Doctor doctor) {
         requireNonNull(doctor);
-        return clinicBook.hasDoctor(doctor);
+        return getFilteredDoctorList().stream().anyMatch(doctor::isSamePerson);
     }
 
     @Override
@@ -109,7 +114,7 @@ public class ModelManager implements Model {
 
     @Override
     public void deleteDoctor(Doctor target) {
-        clinicBook.removeDoctor(target);
+        clinicBook.removePerson(target);
     }
 
     @Override
@@ -120,23 +125,25 @@ public class ModelManager implements Model {
 
     @Override
     public void addDoctor(Doctor doctor) {
-        clinicBook.addDoctor(doctor);
-        updateFilteredDoctorList(PREDICATE_SHOW_ALL_DOCTORS);
+        clinicBook.addPerson(doctor);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
-
 
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         clinicBook.setPerson(target, editedPerson);
     }
 
     @Override
     public void setDoctor(Doctor target, Doctor editedDoctor) {
         requireAllNonNull(target, editedDoctor);
-
         clinicBook.setPerson(target, editedDoctor);
+    }
+
+    @Override
+    public void addDiagnosis(Patient target, Diagnosis diagnosis) {
+        clinicBook.addDiagnosis(target, diagnosis);
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -152,7 +159,11 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<Doctor> getFilteredDoctorList() {
-        return filteredDoctors;
+        return filteredPersons.stream()
+                .filter(Doctor.class::isInstance)
+                .map(Doctor.class::cast)
+                .filter(filteredDoctorPredicate)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
     @Override
@@ -164,7 +175,23 @@ public class ModelManager implements Model {
     @Override
     public void updateFilteredDoctorList(Predicate<Doctor> predicate) {
         requireNonNull(predicate);
-        filteredDoctors.setPredicate(predicate);
+        filteredDoctorPredicate = predicate;
+    }
+
+    @Override
+    public ObservableList<Patient> getFilteredPatientList() {
+        return filteredPersons.filtered(Patient.class::isInstance)
+                .stream()
+                .map(Patient.class::cast)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    }
+
+    @Override
+    public ObservableList<Pharmacist> getFilteredPharmacistList() {
+        return filteredPersons.filtered(Pharmacist.class::isInstance)
+                .stream()
+                .map(Pharmacist.class::cast)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
     @Override
@@ -173,7 +200,6 @@ public class ModelManager implements Model {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof ModelManager)) {
             return false;
         }
@@ -181,7 +207,7 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return clinicBook.equals(otherModelManager.clinicBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredDoctorPredicate.equals(otherModelManager.filteredDoctorPredicate);
     }
-
 }

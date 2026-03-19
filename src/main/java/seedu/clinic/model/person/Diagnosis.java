@@ -25,7 +25,7 @@ public class Diagnosis {
 
     private final String description;
     private final LocalDate visitDate;
-    private final Doctor diagnosedBy;
+    private final int diagnosedBy;
     private final List<String> symptoms = new ArrayList<>();
     private final List<Prescription> prescriptions = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public class Diagnosis {
      * @param diagnosis A valid diagnosis description.
      * @param diagnosedBy Doctor who gave this diagnosis.
      */
-    public Diagnosis(String diagnosis, Doctor diagnosedBy) {
+    public Diagnosis(String diagnosis, int diagnosedBy) {
         this(diagnosis, LocalDate.now(), diagnosedBy);
     }
 
@@ -48,7 +48,7 @@ public class Diagnosis {
      * @param visitDate Date of the visit associated with the diagnosis.
      * @param diagnosedBy Doctor who gave this diagnosis.
      */
-    public Diagnosis(String diagnosis, LocalDate visitDate, Doctor diagnosedBy) {
+    public Diagnosis(String diagnosis, LocalDate visitDate, int diagnosedBy) {
         requireAllNonNull(diagnosis, visitDate, diagnosedBy);
         checkArgument(isValidDiagnosis(diagnosis), MESSAGE_CONSTRAINTS);
         description = diagnosis;
@@ -68,7 +68,7 @@ public class Diagnosis {
         return visitDate;
     }
 
-    public Doctor getDiagnosedBy() {
+    public int getDiagnosedBy() {
         return diagnosedBy;
     }
 
@@ -131,6 +131,21 @@ public class Diagnosis {
                 .toString();
     }
 
+    /**
+     * Returns true if both diagnoses are considered the same.
+     * This defines a weaker notion of equality than {@link #equals(Object)}.
+     */
+    public boolean isSameDiagnosis(Diagnosis otherDiagnosis) {
+        if (otherDiagnosis == this) {
+            return true;
+        }
+
+        return otherDiagnosis != null
+                && description.equals(otherDiagnosis.description)
+                && Objects.equals(visitDate, otherDiagnosis.visitDate)
+                && diagnosedBy == otherDiagnosis.diagnosedBy;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -144,7 +159,7 @@ public class Diagnosis {
         Diagnosis otherDiagnosis = (Diagnosis) other;
         return description.equals(otherDiagnosis.description)
                 && Objects.equals(visitDate, otherDiagnosis.visitDate)
-                && diagnosedBy.equals(otherDiagnosis.diagnosedBy)
+                && diagnosedBy == otherDiagnosis.diagnosedBy
                 && symptoms.equals(otherDiagnosis.symptoms)
                 && prescriptions.equals(otherDiagnosis.prescriptions);
     }

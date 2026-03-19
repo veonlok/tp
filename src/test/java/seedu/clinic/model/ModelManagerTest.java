@@ -15,7 +15,16 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.clinic.commons.core.GuiSettings;
+import seedu.clinic.model.person.Address;
+import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Email;
+import seedu.clinic.model.person.NRIC;
+import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.NameContainsKeywordsPredicate;
+import seedu.clinic.model.person.Patient;
+import seedu.clinic.model.person.Pharmacist;
+import seedu.clinic.model.person.Phone;
 import seedu.clinic.testutil.ClinicBookBuilder;
 
 public class ModelManagerTest {
@@ -91,6 +100,49 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void addDiagnosis_andFilteredRoleLists_success() {
+        ClinicBook clinicBook = new ClinicBook();
+        Patient patient = new Patient(
+                new Name("Patient One"),
+                new Phone("91234567"),
+                new Email("patient@example.com"),
+                new Address("1 Street"),
+                java.util.Set.of(),
+                new NRIC("S1166846A"),
+                java.time.LocalDate.of(2000, 1, 1),
+                "91112222",
+                1);
+        Doctor doctor = new Doctor(
+                new Name("Doctor One"),
+                new Phone("92345678"),
+                new Email("doctor@example.com"),
+                new Address("2 Street"),
+                java.util.Set.of(),
+                2);
+        Pharmacist pharmacist = new Pharmacist(
+                new Name("Pharmacist One"),
+                new Phone("93456789"),
+                new Email("pharmacist@example.com"),
+                new Address("3 Street"),
+                java.util.Set.of(),
+                3);
+
+        clinicBook.addPerson(patient);
+        clinicBook.addPerson(doctor);
+        clinicBook.addPerson(pharmacist);
+
+        modelManager = new ModelManager(clinicBook, new UserPrefs());
+
+        Diagnosis diagnosis = new Diagnosis("Flu", 2);
+        modelManager.addDiagnosis(patient, diagnosis);
+
+        assertEquals(1, modelManager.getFilteredPatientList().size());
+        assertEquals(1, modelManager.getFilteredDoctorList().size());
+        assertEquals(1, modelManager.getFilteredPharmacistList().size());
+        assertEquals(1, modelManager.getFilteredPatientList().get(0).getDiagnoses().size());
     }
 
     @Test

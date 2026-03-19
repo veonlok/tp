@@ -3,6 +3,7 @@ package seedu.clinic.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.clinic.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.clinic.testutil.Assert.assertThrows;
+import static seedu.clinic.testutil.TypicalPatients.createNadia;
 import static seedu.clinic.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
@@ -14,14 +15,17 @@ import org.junit.jupiter.api.Test;
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.Name;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Phone;
 
 public class JsonAdaptedPersonTest {
     private static final int INVALID_ID = -1;
     private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NRIC = "S1234567A";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_DATE_OF_BIRTH = "1992-02-30";
 
     private static final int VALID_ID = BENSON.getId();
     private static final String VALID_NAME = BENSON.getName().toString();
@@ -30,6 +34,7 @@ public class JsonAdaptedPersonTest {
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
+    private static final Patient NADIA = createNadia();
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {

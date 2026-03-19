@@ -8,18 +8,17 @@ import seedu.clinic.model.Model;
 import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
 
 /**
- * Finds and lists all persons in clinic book whose names contain any of the
- * specified keywords (case-insensitive) or whose phone numbers match exactly.
+ * Finds and lists all persons in clinic book who match the supplied name, phone,
+ * and patient NRIC criteria.
  */
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive) or whose phone numbers match exactly, and displays them "
-            + "as a list with index numbers.\n"
-            + "Parameters: [n/NAME_KEYWORDS] [p/PHONE]\n"
-            + "Example: " + COMMAND_WORD + " n/alice bob p/98765432";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons who match the supplied "
+            + "name keywords, phone number, and/or patient NRIC, and displays them as a list with index numbers.\n"
+            + "Parameters: [n/NAME_KEYWORDS] [p/PHONE] [nric/NRIC]\n"
+            + "Example: " + COMMAND_WORD + " n/alice bob p/98765432 nric/S1234567D";
 
     private final PersonMatchesFindCriteriaPredicate predicate;
 

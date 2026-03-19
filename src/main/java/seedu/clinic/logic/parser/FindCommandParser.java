@@ -2,6 +2,7 @@ package seedu.clinic.logic.parser;
 
 import static seedu.clinic.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 import seedu.clinic.logic.commands.FindCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
 import seedu.clinic.model.person.Phone;
 
@@ -25,14 +27,15 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE) || !argMultimap.getPreamble().isEmpty()) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC)
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
         // Ensure each supported prefix appears at most once.
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC);
 
         List<String> nameKeywords = List.of();
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
@@ -48,7 +51,12 @@ public class FindCommandParser implements Parser<FindCommand> {
             phone = Optional.of(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
 
-        return new FindCommand(new PersonMatchesFindCriteriaPredicate(nameKeywords, phone));
+        Optional<NRIC> nric = Optional.empty();
+        if (argMultimap.getValue(PREFIX_NRIC).isPresent()) {
+            nric = Optional.of(ParserUtil.parseNric(argMultimap.getValue(PREFIX_NRIC).get()));
+        }
+
+        return new FindCommand(new PersonMatchesFindCriteriaPredicate(nameKeywords, phone, nric));
     }
 
     /**

@@ -61,6 +61,13 @@ public class Person {
         this(name, phone, email, tags, DEFAULT_ID);
     }
 
+    /**
+     * Compatibility constructor for callers still passing a legacy address field.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
+        this(name, phone, email, tags, id);
+    }
+
     public String getRole() {
         return ROLE;
     }

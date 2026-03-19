@@ -22,8 +22,11 @@ import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.Model;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.ReadOnlyUserPrefs;
+import seedu.clinic.model.person.Diagnosis;
 import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -170,6 +173,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void addDiagnosis(Patient target, Diagnosis diagnosis) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
@@ -186,6 +194,16 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredDoctorList(Predicate<Doctor> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Patient> getFilteredPatientList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Pharmacist> getFilteredPharmacistList() {
             throw new AssertionError("This method should not be called.");
         }
     }

@@ -6,6 +6,7 @@ import static seedu.clinic.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.clinic.testutil.Assert.assertThrows;
 import static seedu.clinic.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -192,5 +193,35 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseDate_invalidDate_throwsParseException() {
+        assertThrows(ParseException.class, ParserUtil.MESSAGE_INVALID_DATE, () ->
+                ParserUtil.parseDate("2026-13-01"));
+    }
+
+    @Test
+    public void parseDate_validDate_success() throws Exception {
+        LocalDate date = ParserUtil.parseDate("2026-03-01");
+        assertEquals(LocalDate.of(2026, 3, 1), date);
+    }
+
+    @Test
+    public void parsePrescription_emptyMedication_throwsParseException() {
+        assertThrows(ParseException.class, "Medication name cannot be empty.", () ->
+                ParserUtil.parsePrescription("   ", "500mg", "daily", 1));
+    }
+
+    @Test
+    public void parsePrescription_emptyDosage_throwsParseException() {
+        assertThrows(ParseException.class, "Dosage cannot be empty.", () ->
+                ParserUtil.parsePrescription("Paracetamol", "   ", "daily", 1));
+    }
+
+    @Test
+    public void parsePrescription_emptyFrequency_throwsParseException() {
+        assertThrows(ParseException.class, "Frequency cannot be empty.", () ->
+                ParserUtil.parsePrescription("Paracetamol", "500mg", "  ", 1));
     }
 }

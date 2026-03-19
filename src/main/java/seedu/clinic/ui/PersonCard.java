@@ -37,6 +37,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
+    private Label nric;
+    @FXML
     private Label phone;
     @FXML
     private Label address;
@@ -54,6 +56,12 @@ public class PersonCard extends UiPart<Region> {
 
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
+        if (person instanceof Patient) {
+            nric.setText("NRIC: " + ((Patient) person).getNric().value);
+        } else {
+            nric.setManaged(false);
+            nric.setVisible(false);
+        }
         phone.setText(person.getPhone().value);
         if (person instanceof Patient) {
             address.setText(((Patient) person).getAddress().value);

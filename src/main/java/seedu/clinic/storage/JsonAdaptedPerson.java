@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.model.person.Email;
@@ -19,6 +21,13 @@ import seedu.clinic.model.tag.Tag;
 /**
  * Jackson-friendly version of {@link Person}.
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = JsonAdaptedPerson.class, name = "person"),
+    @JsonSubTypes.Type(value = JsonAdaptedPatient.class, name = "patient"),
+    @JsonSubTypes.Type(value = JsonAdaptedDoctor.class, name = "doctor"),
+    @JsonSubTypes.Type(value = JsonAdaptedPharmacist.class, name = "pharmacist")
+})
 class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
@@ -33,10 +42,11 @@ class JsonAdaptedPerson {
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
-    public JsonAdaptedPerson(@JsonProperty("id") int id, @JsonProperty("name") String name,
-             @JsonProperty("phone") String phone,
-             @JsonProperty("email") String email,
-             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+    public JsonAdaptedPerson(@JsonProperty("id") int id,
+                             @JsonProperty("name") String name,
+                             @JsonProperty("phone") String phone,
+                             @JsonProperty("email") String email,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -102,5 +112,4 @@ class JsonAdaptedPerson {
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelTags, modelId);
     }
-
 }

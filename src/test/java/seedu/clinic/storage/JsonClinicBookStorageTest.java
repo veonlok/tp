@@ -2,7 +2,9 @@ package seedu.clinic.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.testutil.Assert.assertThrows;
+import static seedu.clinic.testutil.TypicalPatients.createNadia;
 import static seedu.clinic.testutil.TypicalPersons.ALICE;
 import static seedu.clinic.testutil.TypicalPersons.HOON;
 import static seedu.clinic.testutil.TypicalPersons.IDA;
@@ -18,6 +20,8 @@ import org.junit.jupiter.api.io.TempDir;
 import seedu.clinic.commons.exceptions.DataLoadingException;
 import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.ReadOnlyClinicBook;
+import seedu.clinic.model.person.Patient;
+import seedu.clinic.model.person.Person;
 
 public class JsonClinicBookStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonClinicBookStorageTest");
@@ -84,6 +88,29 @@ public class JsonClinicBookStorageTest {
         readBack = jsonClinicBookStorage.readClinicBook().get(); // file path not specified
         assertEquals(original, new ClinicBook(readBack));
 
+    }
+
+    @Test
+    public void readAndSaveClinicBook_withPatient_preservesSubtypeAndFields() throws Exception {
+        Path filePath = testFolder.resolve("TempClinicBookWithPatient.json");
+        ClinicBook original = getTypicalClinicBook();
+        Patient nadia = createNadia();
+        original.addPerson(nadia);
+
+        JsonClinicBookStorage jsonClinicBookStorage = new JsonClinicBookStorage(filePath);
+        jsonClinicBookStorage.saveClinicBook(original, filePath);
+        ReadOnlyClinicBook readBack = jsonClinicBookStorage.readClinicBook(filePath).get();
+
+        Person readBackPerson = new ClinicBook(readBack).getPersonList().get(readBack.getPersonList().size() - 1);
+        assertTrue(readBackPerson instanceof Patient);
+        Patient readBackPatient = (Patient) readBackPerson;
+        assertEquals(nadia.getName(), readBackPatient.getName());
+        assertEquals(nadia.getPhone(), readBackPatient.getPhone());
+        assertEquals(nadia.getEmail(), readBackPatient.getEmail());
+        assertEquals(nadia.getAddress(), readBackPatient.getAddress());
+        assertEquals(nadia.getNric(), readBackPatient.getNric());
+        assertEquals(nadia.getDateOfBirth(), readBackPatient.getDateOfBirth());
+        assertEquals(nadia.getEmergencyContact(), readBackPatient.getEmergencyContact());
     }
 
     @Test

@@ -20,8 +20,11 @@ import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.Model;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.ReadOnlyUserPrefs;
+import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.Name;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Phone;
@@ -40,7 +43,8 @@ public class AddPharmacistCommandTest {
 
         CommandResult commandResult = new AddPharmacistCommand(pharmacist).execute(modelStub);
 
-        assertEquals(String.format(AddPharmacistCommand.MESSAGE_SUCCESS, pharmacist), commandResult.getFeedbackToUser());
+        assertEquals(String.format(AddPharmacistCommand.MESSAGE_SUCCESS, pharmacist),
+                commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(pharmacist), modelStub.personsAdded);
     }
 
@@ -50,8 +54,8 @@ public class AddPharmacistCommandTest {
         AddPharmacistCommand command = new AddPharmacistCommand(pharmacist);
         ModelStub modelStub = new ModelStubWithPerson(pharmacist);
 
-        assertThrows(CommandException.class, AddPharmacistCommand.MESSAGE_DUPLICATE_PHARMACIST,
-                () -> command.execute(modelStub));
+        assertThrows(CommandException.class, AddPharmacistCommand.MESSAGE_DUPLICATE_PHARMACIST, () ->
+                command.execute(modelStub));
     }
 
     @Test
@@ -121,7 +125,7 @@ public class AddPharmacistCommandTest {
         }
 
         @Override
-        public boolean hasDoctor(seedu.clinic.model.person.Doctor doctor) {
+        public boolean hasDoctor(Doctor doctor) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -131,7 +135,7 @@ public class AddPharmacistCommandTest {
         }
 
         @Override
-        public void deleteDoctor(seedu.clinic.model.person.Doctor target) {
+        public void deleteDoctor(Doctor target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -141,7 +145,7 @@ public class AddPharmacistCommandTest {
         }
 
         @Override
-        public void addDoctor(seedu.clinic.model.person.Doctor doctor) {
+        public void addDoctor(Doctor doctor) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -151,7 +155,12 @@ public class AddPharmacistCommandTest {
         }
 
         @Override
-        public void setDoctor(seedu.clinic.model.person.Doctor target, seedu.clinic.model.person.Doctor editedDoctor) {
+        public void setDoctor(Doctor target, Doctor editedDoctor) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addDiagnosis(Patient target, Diagnosis diagnosis) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -161,7 +170,7 @@ public class AddPharmacistCommandTest {
         }
 
         @Override
-        public ObservableList<seedu.clinic.model.person.Doctor> getFilteredDoctorList() {
+        public ObservableList<Doctor> getFilteredDoctorList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -171,7 +180,17 @@ public class AddPharmacistCommandTest {
         }
 
         @Override
-        public void updateFilteredDoctorList(Predicate<seedu.clinic.model.person.Doctor> predicate) {
+        public void updateFilteredDoctorList(Predicate<Doctor> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Patient> getFilteredPatientList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Pharmacist> getFilteredPharmacistList() {
             throw new AssertionError("This method should not be called.");
         }
     }

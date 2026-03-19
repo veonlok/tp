@@ -15,15 +15,18 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.clinic.logic.commands.AddCommand;
+import seedu.clinic.logic.commands.AddDiagnosisCommand;
 import seedu.clinic.logic.commands.ClearCommand;
 import seedu.clinic.logic.commands.DeleteCommand;
 import seedu.clinic.logic.commands.EditCommand;
 import seedu.clinic.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.clinic.logic.commands.ExitCommand;
 import seedu.clinic.logic.commands.FindCommand;
+import seedu.clinic.logic.commands.GetHistoryCommand;
 import seedu.clinic.logic.commands.HelpCommand;
 import seedu.clinic.logic.commands.ListCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
 import seedu.clinic.model.person.Phone;
@@ -75,20 +78,42 @@ public class ClinicBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " n/" + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(keywords, Optional.empty())), command);
+        assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(
+                keywords, Optional.empty(), Optional.empty())), command);
     }
 
     @Test
     public void parseCommand_findByPhone() throws Exception {
         FindCommand command = (FindCommand) parser.parseCommand(FindCommand.COMMAND_WORD + " p/98765432");
         assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(List.of(),
-                Optional.of(new Phone("98765432")))), command);
+                Optional.of(new Phone("98765432")), Optional.empty())), command);
+    }
+
+    @Test
+    public void parseCommand_findByNric() throws Exception {
+        FindCommand command = (FindCommand) parser.parseCommand(FindCommand.COMMAND_WORD + " nric/S1234567D");
+        assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(List.of(),
+                Optional.empty(), Optional.of(new NRIC("S1234567D")))), command);
     }
 
     @Test
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
+    }
+
+    @Test
+    public void parseCommand_getHistory() throws Exception {
+        assertTrue(parser.parseCommand(GetHistoryCommand.COMMAND_WORD + " nric/S1234567D")
+                instanceof GetHistoryCommand);
+    }
+
+    @Test
+    public void parseCommand_addDiagnosis() throws Exception {
+        String args = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/daily dispensed/3";
+        assertTrue(parser.parseCommand(AddDiagnosisCommand.COMMAND_WORD + args)
+                instanceof AddDiagnosisCommand);
     }
 
     @Test

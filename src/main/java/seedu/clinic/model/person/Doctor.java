@@ -1,6 +1,9 @@
 package seedu.clinic.model.person;
 
+import java.util.Set;
+
 import seedu.clinic.commons.util.ToStringBuilder;
+import seedu.clinic.model.tag.Tag;
 
 /**
  * Represents a Doctor in the clinic.
@@ -37,6 +40,13 @@ public class Doctor extends Staff {
      */
     public Doctor(Name name, Phone phone, Email email, int id) {
         super(name, phone, email, id);
+    }
+
+    /**
+     * Compatibility constructor for callers still passing legacy address and tag data.
+     */
+    public Doctor(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
+        this(name, phone, email, id);
     }
 
 

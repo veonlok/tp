@@ -1,0 +1,29 @@
+{
+  "persons" : [ {
+    "type" : "patient",
+    "id" : 1,
+    "name" : "Alice Patient",
+    "phone" : "94351253",
+    "email" : "alice@example.com",
+    "address" : "123, Jurong West Ave 6, #08-111",
+    "tags" : [ "friends" ],
+    "nric" : "S1166846A",
+    "dateOfBirth" : "2000-01-02",
+    "emergencyContact" : "Bob 98765432",
+    "diagnoses" : [ {
+      "description" : "Flu",
+      "visitDate" : "2024-01-02",
+      "diagnosedBy" : 3,
+      "symptoms" : [ "cough" ],
+      "prescriptions" : [ ]
+    } ]
+  }, {
+    "type" : "person",
+    "id" : 2,
+    "name" : "Bob Person",
+    "phone" : "91234567",
+    "email" : "bob@example.com",
+    "address" : "10th street",
+    "tags" : [ "colleagues" ]
+  } ]
+}

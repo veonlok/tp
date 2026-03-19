@@ -5,8 +5,11 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.clinic.commons.core.GuiSettings;
+import seedu.clinic.model.person.Diagnosis;
 import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 
 /**
  * The API of the Model component.
@@ -100,10 +103,15 @@ public interface Model {
     /**
      * Replaces the given doctor {@code target} with {@code editedDoctor}.
      * {@code target} must exist in clinic book.
-     * The person identity of {@code editedDoctor} must not be the same as another existing doctor in clinic book.
+     * The doctor identity of {@code editedDoctor} must not be the same as another existing doctor in clinic book.
      */
-
     void setDoctor(Doctor target, Doctor editedDoctor);
+
+    /**
+     * Adds the given diagnosis to the target patient.
+     * {@code target} must exist in clinic book.
+     */
+    void addDiagnosis(Patient target, Diagnosis diagnosis);
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
@@ -123,6 +131,9 @@ public interface Model {
      */
     void updateFilteredDoctorList(Predicate<Doctor> predicate);
 
+    /** Returns an unmodifiable view of the filtered patient list */
+    ObservableList<Patient> getFilteredPatientList();
 
-
+    /** Returns an unmodifiable view of the filtered pharmacist list */
+    ObservableList<Pharmacist> getFilteredPharmacistList();
 }

@@ -9,7 +9,6 @@ import seedu.clinic.commons.util.ToStringBuilder;
 
 /**
  * Represents a prescription for medication.
- *
  * TODO: Add dispensePrescription() to update prescription status
  * TODO: Implement dispensePrescription() to mark fulfilled prescriptions
  * TODO: Implement getSummary() method for prescription slip
@@ -23,22 +22,22 @@ public class Prescription {
     private final String medicationName;
     private final String dosage;
     private final String frequency;
-    private final Doctor prescribedBy;
-    private final Pharmacist dispensedBy;
+    private final int prescribedBy; // NOT USED
+    private final int dispensedBy;
     private final boolean isDispensed;
 
     /**
      * Constructs a {@code Prescription}.
      */
-    public Prescription(String medicationName, String dosage, String frequency, Pharmacist dispensedBy) {
-        this(medicationName, dosage, frequency, null, dispensedBy);
+    public Prescription(String medicationName, String dosage, String frequency, int dispensedBy) {
+        this(medicationName, dosage, frequency, 0, dispensedBy);
     }
 
     /**
      * Constructs a {@code Prescription}.
      */
     public Prescription(String medicationName, String dosage, String frequency,
-            Doctor prescribedBy, Pharmacist dispensedBy) {
+            int prescribedBy, int dispensedBy) {
         requireAllNonNull(medicationName, dosage, frequency, dispensedBy);
         checkArgument(isValidField(medicationName), MESSAGE_CONSTRAINTS);
         checkArgument(isValidField(dosage), MESSAGE_CONSTRAINTS);
@@ -72,13 +71,16 @@ public class Prescription {
     }
 
     /**
-     * Returns the doctor who prescribed this prescription, if available.
+     * Returns the id of the doctor who prescribed this prescription, if available.
      */
-    public Doctor getPrescribedBy() {
+    public int getPrescribedBy() {
         return prescribedBy;
     }
 
-    public Pharmacist getDispensedBy() {
+    /**
+     * Returns the id of the pharmacist who dispensed this prescription.
+     */
+    public int getDispensedBy() {
         return dispensedBy;
     }
 
@@ -115,8 +117,8 @@ public class Prescription {
         return medicationName.equals(otherPrescription.medicationName)
                 && dosage.equals(otherPrescription.dosage)
                 && frequency.equals(otherPrescription.frequency)
-                && Objects.equals(prescribedBy, otherPrescription.prescribedBy)
-                && dispensedBy.equals(otherPrescription.dispensedBy)
+                && prescribedBy == otherPrescription.prescribedBy
+                && dispensedBy == otherPrescription.dispensedBy
                 && isDispensed == otherPrescription.isDispensed;
     }
 
