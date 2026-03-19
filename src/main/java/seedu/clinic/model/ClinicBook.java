@@ -108,9 +108,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
     public void addPerson(Person p) {
         // If ID is 0 (default), assign a new one
         if (p.getId() == 0) {
-            int newId = getNextId();
-            p = new Person(p.getName(), p.getPhone(), p.getEmail(),
-                    p.getAddress(), p.getTags(), newId);
+            p.setId(getNextId());
         }
         persons.add(p);
     }

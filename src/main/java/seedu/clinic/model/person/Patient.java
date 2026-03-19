@@ -29,6 +29,7 @@ public class Patient extends ContactPerson {
     private static int nextPatientId = DEFAULT_PATIENT_ID + 1;
 
     private final int patientId;
+    private final Address address;
     private final NRIC nric;
     private final LocalDate dateOfBirth;
     private final String emergencyContact;
@@ -39,9 +40,10 @@ public class Patient extends ContactPerson {
      */
     public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
             NRIC nric, LocalDate dateOfBirth, String emergencyContact) {
-        super(name, phone, email, address, tags);
-        requireAllNonNull(nric, dateOfBirth, emergencyContact);
+        super(name, phone, email, tags);
+        requireAllNonNull(address, nric, dateOfBirth, emergencyContact);
         this.patientId = getNextPatientId();
+        this.address = address;
         this.nric = nric;
         this.dateOfBirth = dateOfBirth;
         this.emergencyContact = emergencyContact;
@@ -52,9 +54,10 @@ public class Patient extends ContactPerson {
      */
     public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
             NRIC nric, LocalDate dateOfBirth, String emergencyContact, int id) {
-        super(name, phone, email, address, tags, id);
-        requireAllNonNull(nric, dateOfBirth, emergencyContact);
+        super(name, phone, email, tags, id);
+        requireAllNonNull(address, nric, dateOfBirth, emergencyContact);
         this.patientId = getNextPatientId();
+        this.address = address;
         this.nric = nric;
         this.dateOfBirth = dateOfBirth;
         this.emergencyContact = emergencyContact;
@@ -63,8 +66,8 @@ public class Patient extends ContactPerson {
     /**
      * Reuses an existing person as the shared identity and contact details for a patient.
      */
-    public Patient(Person person, NRIC nric, LocalDate dob, String emergencyContact) {
-        this(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getTags(),
+    public Patient(Person person, Address address, NRIC nric, LocalDate dob, String emergencyContact) {
+        this(person.getName(), person.getPhone(), person.getEmail(), address, person.getTags(),
                 nric, dob, emergencyContact, person.getId());
     }
 
@@ -74,6 +77,10 @@ public class Patient extends ContactPerson {
 
     public NRIC getNric() {
         return nric;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     /**
@@ -131,12 +138,13 @@ public class Patient extends ContactPerson {
         Patient otherPatient = (Patient) other;
         return super.equals(otherPatient)
                 && patientId == otherPatient.patientId
+                && address.equals(otherPatient.address)
                 && nric.equals(otherPatient.nric)
                 && dateOfBirth.equals(otherPatient.dateOfBirth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), patientId, nric, dateOfBirth);
+        return Objects.hash(super.hashCode(), patientId, address, nric, dateOfBirth);
     }
 }

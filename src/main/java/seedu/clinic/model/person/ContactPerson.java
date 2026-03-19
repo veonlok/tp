@@ -17,21 +17,21 @@ public class ContactPerson extends Person {
      * Constructs a ContactPerson with all fields.
      */
     public ContactPerson(Name name, Phone phone, Email email) {
-        super(name, phone, email, new Address("N/A"), Collections.emptySet());
+        super(name, phone, email, Collections.emptySet());
     }
 
     /**
-     * Compatibility constructor for subclasses that still require address/tags.
+     * Constructs a ContactPerson with tags.
      */
-    public ContactPerson(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        super(name, phone, email, address, tags);
+    public ContactPerson(Name name, Phone phone, Email email, Set<Tag> tags) {
+        super(name, phone, email, tags);
     }
 
     /**
-     * Compatibility constructor for subclasses that still require address/tags and ID.
+     * Constructs a ContactPerson with tags and ID.
      */
-    public ContactPerson(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
-        super(name, phone, email, address, tags, id);
+    public ContactPerson(Name name, Phone phone, Email email, Set<Tag> tags, int id) {
+        super(name, phone, email, tags, id);
     }
 
     /**

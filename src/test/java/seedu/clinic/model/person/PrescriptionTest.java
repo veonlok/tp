@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.testutil.Assert.assertThrows;
 
-import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 
 public class PrescriptionTest {
@@ -13,9 +11,7 @@ public class PrescriptionTest {
     private static final Pharmacist DEFAULT_PHARMACIST = new Pharmacist(
             new Name("Pharmacist One"),
             new Phone("91234567"),
-            new Email("pharmacist@example.com"),
-            new Address("1 Pharmacy Street"),
-            Collections.emptySet());
+            new Email("pharmacist@example.com"));
 
     @Test
     public void constructor_null_throwsNullPointerException() {

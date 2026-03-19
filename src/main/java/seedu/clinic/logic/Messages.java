@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.clinic.logic.parser.Prefix;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -41,11 +42,13 @@ public class Messages {
                 .append(person.getId())
                 .append("; Phone: ")
                 .append(person.getPhone())
-                .append("; Email: ")
-                .append(person.getEmail())
-                .append("; Address: ")
-                .append(person.getAddress())
-                .append("; Tags: ");
+            .append("; Email: ")
+            .append(person.getEmail());
+        if (person instanceof Patient) {
+            builder.append("; Address: ")
+                .append(((Patient) person).getAddress());
+        }
+        builder.append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();
     }

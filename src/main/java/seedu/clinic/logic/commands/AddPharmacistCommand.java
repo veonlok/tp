@@ -8,49 +8,48 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.logic.commands.exceptions.CommandException;
 import seedu.clinic.model.Model;
-import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Pharmacist;
 
 /**
- * Adds a doctor to the clinic book.
+ * Adds a pharmacist to the clinic book.
  */
-public class AddDoctorCommand extends Command {
+public class AddPharmacistCommand extends Command {
 
-    public static final String COMMAND_WORD = "add-doc";
+    public static final String COMMAND_WORD = "add-pharmacist";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a doctor to the clinic book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a pharmacist to the clinic book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
-            //+ "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com ";
 
-    public static final String MESSAGE_SUCCESS = "New doctor added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This doctor already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "New pharmacist added: %1$s";
+    public static final String MESSAGE_DUPLICATE_PHARMACIST = "This pharmacist already exists in the address book";
 
-    private final Doctor toAdd;
+    private final Pharmacist newPharmacist;
 
     /**
-     * Creates an AddDoctorCommand to add the specified {@code Doctor}
+     * Creates an AddPharmacistCommand to add the specified {@code Pharmacist}
      */
-    public AddDoctorCommand(Doctor doctor) {
-        requireNonNull(doctor);
-        toAdd = doctor;
+    public AddPharmacistCommand(Pharmacist pharmacist) {
+        requireNonNull(pharmacist);
+        newPharmacist = pharmacist;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasPerson(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        if (model.hasPerson(newPharmacist)) {
+            throw new CommandException(MESSAGE_DUPLICATE_PHARMACIST);
         }
 
-        model.addDoctor(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        model.addPerson(newPharmacist);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, newPharmacist));
     }
 
     @Override
@@ -60,18 +59,18 @@ public class AddDoctorCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddDoctorCommand)) {
+        if (!(other instanceof AddPharmacistCommand)) {
             return false;
         }
 
-        AddDoctorCommand otherAddCommand = (AddDoctorCommand) other;
-        return toAdd.equals(otherAddCommand.toAdd);
+        AddPharmacistCommand otherAddCommand = (AddPharmacistCommand) other;
+        return newPharmacist.equals(otherAddCommand.newPharmacist);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("toAdd", toAdd)
+                .add("Pharmacist", newPharmacist)
                 .toString();
     }
 }

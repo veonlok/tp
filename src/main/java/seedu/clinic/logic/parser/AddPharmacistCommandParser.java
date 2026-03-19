@@ -7,30 +7,30 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
 
 import java.util.stream.Stream;
 
-import seedu.clinic.logic.commands.AddDoctorCommand;
+import seedu.clinic.logic.commands.AddPharmacistCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
-import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.Name;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Phone;
 
 /**
- * Parses input arguments and creates a new AddDoctorCommand object
+ * Parses input arguments and creates a new AddPharmacistCommand object
  */
-public class AddDoctorCommandParser implements Parser<AddDoctorCommand> {
+public class AddPharmacistCommandParser implements Parser<AddPharmacistCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddDoctorCommand
-     * and returns an AddDoctorCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the AddPharmacistCommand
+     * and returns an AddPharmacistCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public AddDoctorCommand parse(String args) throws ParseException {
+    public AddPharmacistCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDoctorCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPharmacistCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL);
@@ -38,9 +38,9 @@ public class AddDoctorCommandParser implements Parser<AddDoctorCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
 
-        Doctor doctor = new Doctor(name, phone, email);
+        Pharmacist pharmacist = new Pharmacist(name, phone, email, 0);
 
-        return new AddDoctorCommand(doctor);
+        return new AddPharmacistCommand(pharmacist);
     }
 
     /**
@@ -50,5 +50,4 @@ public class AddDoctorCommandParser implements Parser<AddDoctorCommand> {
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
-
 }

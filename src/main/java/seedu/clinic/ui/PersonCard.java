@@ -8,6 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -54,7 +55,11 @@ public class PersonCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
+        if (person instanceof Patient) {
+            address.setText(((Patient) person).getAddress().value);
+        } else {
+            address.setText("N/A");
+        }
         email.setText(person.getEmail().value);
         role.setText(person.getRole());
         person.getTags().stream()

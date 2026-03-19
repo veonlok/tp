@@ -37,8 +37,6 @@ public class Person {
     private int id;
 
     // Data fields
-    // TODO: Move Address to Patient
-    private final Address address;
     // TODO: Remove Tags
     private final Set<Tag> tags = new HashSet<>();
 
@@ -47,12 +45,11 @@ public class Person {
      * Every field must be present and not null.
      * ID will be assigned by ClinicBook
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags, int id) {
+        requireAllNonNull(name, phone, email, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.address = address;
         this.tags.addAll(tags);
         this.id = id;
     }
@@ -60,8 +57,8 @@ public class Person {
     /**
      * Constructor for Person with automatic ID assignment.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, tags, DEFAULT_ID);
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags) {
+        this(name, phone, email, tags, DEFAULT_ID);
     }
 
     public String getRole() {
@@ -78,10 +75,6 @@ public class Person {
 
     public Email getEmail() {
         return email;
-    }
-
-    public Address getAddress() {
-        return address;
     }
 
     public int getId() {
@@ -136,14 +129,13 @@ public class Person {
                 && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(id, name, phone, email, address, tags);
+        return Objects.hash(id, name, phone, email, tags);
     }
 
     @Override
@@ -153,7 +145,6 @@ public class Person {
                 .add("id", id)
                 .add("phone", phone)
                 .add("email", email)
-                .add("address", address)
                 .add("tags", tags)
                 .toString();
     }
